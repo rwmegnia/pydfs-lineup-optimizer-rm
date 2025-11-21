@@ -435,6 +435,25 @@ class LineupOptimizer:
                 raise GenerateLineupException(solver_exception.get_user_defined_constraints())
         self.last_context = context
 
+    def set_min_low_owned_players(self, min_low_owned: int, min_low_owned_ownership: float, low_bound: float) -> None:
+        if min_low_owned > self.settings.get_total_players():
+            raise LineupOptimizerException('Num of low owned players can\'t be greater than max players')
+        if min_low_owned > len([p for p in self.player_pool.filtered_players if p.projected_ownership<min_low_owned_ownership]):
+            raise LineupOptimizerException('Num of low owned players can\'t be greater than total number of low owned players')
+        self.min_low_owned = min_low_owned
+        self.min_low_owned_ownership = min_low_owned_ownership
+        self.min_low_owned_low_bound = low_bound
+        self.add_new_rule(MinLowOwnedPlayersRule)
+
+    def set_min_high_owned_players(self, min_high_owned: int, min_high_owned_ownership: float) -> None:
+        if min_high_owned > self.settings.get_total_players():
+            raise LineupOptimizerException('Num of high owned players can\'t be greater than max players')
+        if min_high_owned > len([p for p in self.player_pool.filtered_players if p.projected_ownership>=min_high_owned_ownership]):
+            raise LineupOptimizerException('Num of high owned players can\'t be greater than total number of high owned players')
+        self.min_high_owned = min_high_owned
+        self.min_high_owned_ownership = min_high_owned_ownership
+        self.add_new_rule(MinHighOwnedPlayersRule)
+        
     def optimize_lineups(
             self,
             lineups: List[Lineup],

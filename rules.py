@@ -25,10 +25,9 @@ __all__ = [
     'RestrictPositionsForOpposingTeam', 'RosterSpacingRule', 'FanduelBaseballRosterRule',
     'TotalTeamsRule', 'FanduelSingleGameMaxQBRule',
     'RestrictPositionsForSameTeamRule', 'ForcePositionsForOpposingTeamRule', 'GenericStacksRule',
-    'MinStartersRule', 'MinExposureRule', 'MinGamesRule', 'DraftKingsBaseballRosterRule',
+    'MinStartersRule','MinHighOwnedPlayersRule','MinLowOwnedPlayersRule', 'MinExposureRule', 'MinGamesRule', 'DraftKingsBaseballRosterRule',
     'DraftKingsTiersRule', 'TeamsExposureRule',
 ]
-
 
 class OptimizerRule:
     def __init__(self, optimizer: 'LineupOptimizer', players_dict: Dict[Player, Any], context: OptimizationContext):
@@ -621,3 +620,18 @@ class TeamsExposureRule(OptimizerRule):
             if not team_variables:
                 continue
             solver.add_constraint(team_variables, None, SolverSign.EQ, 0)
+            
+class MinLowOwnedPlayersRule(OptimizerRule):
+    def apply(self, solver):
+        min_low_owned = self.optimizer.min_low_owned
+        min_low_owned_ownership = self.optimizer.min_low_owned_ownership
+        low_bound = self.optimizer.min_low_owned_low_bound
+        variables = [variable for player, variable in self.players_dict.items() if (player.projected_ownership<=min_low_owned_ownership)&(player.projected_ownership>=low_bound)]
+        solver.add_constraint(variables, None, SolverSign.GTE, min_low_owned, name='min_low_owned')
+
+class MinHighOwnedPlayersRule(OptimizerRule):
+    def apply(self, solver):
+        min_high_owned = self.optimizer.min_high_owned
+        min_high_owned_ownership = self.optimizer.min_high_owned_ownership
+        variables = [variable for player, variable in self.players_dict.items() if player.projected_ownership>=min_high_owned_ownership]
+        solver.add_constraint(variables, None, SolverSign.GTE, min_high_owned, name='min_high_owned')

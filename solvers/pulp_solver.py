@@ -1,11 +1,12 @@
-from pulp import LpProblem, LpMaximize, LpVariable, lpSum, LpStatusOptimal, LpBinary, LpInteger, PULP_CBC_CMD
+from pulp import LpProblem, LpMaximize, LpVariable, lpSum, LpStatusOptimal, LpBinary, LpInteger, PULP_CBC_CMD,GLPK
 from pydfs_lineup_optimizer.solvers.base import Solver
 from pydfs_lineup_optimizer.solvers.constants import SolverSign
 from pydfs_lineup_optimizer.solvers.exceptions import SolverException, SolverInfeasibleSolutionException
 
 
 class PuLPSolver(Solver):
-    LP_SOLVER = PULP_CBC_CMD(msg=False)
+    # LP_SOLVER = PULP_CBC_CMD(msg=False)
+    LP_SOLVER = GLPK(msg=False)
 
     def __init__(self):
         self.prob = LpProblem('pydfs_lineup_optimizer', LpMaximize)

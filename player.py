@@ -43,6 +43,7 @@ class Player:
                  fppg_ceil: Optional[float] = None,
                  progressive_scale: Optional[float] = None,
                  original_positions: Optional[List[str]] = None,
+                 position_slot: Optional[str] = None,
                  ):
         self.id = player_id
         self.first_name = first_name
@@ -64,6 +65,7 @@ class Player:
         self.fppg_ceil = fppg_ceil
         self.progressive_scale = progressive_scale
         self.original_positions = original_positions  # type: ignore
+        self.position_slot = position_slot
 
     def __repr__(self):
         return '%s %s (%s)' % (self.full_name, '/'.join(self.positions), self.team)

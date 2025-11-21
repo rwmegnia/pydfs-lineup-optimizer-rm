@@ -11,7 +11,7 @@ from pydfs_lineup_optimizer.tz import set_timezone
 from pydfs_lineup_optimizer.stacks import PlayersGroup, TeamStack, PositionsStack, Stack
 from pydfs_lineup_optimizer.exposure_strategy import TotalExposureStrategy, AfterEachExposureStrategy
 from pydfs_lineup_optimizer.fantasy_points_strategy import StandardFantasyPointsStrategy, RandomFantasyPointsStrategy, \
-    ProgressiveFantasyPointsStrategy
+    ProgressiveFantasyPointsStrategy, CorrelatedFantasyPointsStrategy
 from pydfs_lineup_optimizer.player_pool import PlayerFilter
 
 
