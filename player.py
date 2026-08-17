@@ -41,6 +41,8 @@ class Player:
                  is_confirmed_starter: Optional[bool] = None,
                  fppg_floor: Optional[float] = None,
                  fppg_ceil: Optional[float] = None,
+                 fppg_actual: Optional[float] = None,
+
                  progressive_scale: Optional[float] = None,
                  original_positions: Optional[List[str]] = None,
                  position_slot: Optional[str] = None,
@@ -52,6 +54,7 @@ class Player:
         self.team = team
         self.salary = salary
         self.fppg = fppg
+        self.fppg_actual = fppg_actual
         self.is_injured = is_injured
         self.game_info = game_info
         self.roster_order = roster_order
