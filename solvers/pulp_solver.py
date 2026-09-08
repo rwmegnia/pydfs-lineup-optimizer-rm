@@ -5,8 +5,8 @@ from pydfs_lineup_optimizer.solvers.exceptions import SolverException, SolverInf
 
 
 class PuLPSolver(Solver):
-    # LP_SOLVER = PULP_CBC_CMD(msg=False)
-    LP_SOLVER = GLPK(msg=False)
+    LP_SOLVER = PULP_CBC_CMD(msg=False)
+    #LP_SOLVER = GLPK(msg=False)
 
     def __init__(self):
         self.prob = LpProblem('pydfs_lineup_optimizer', LpMaximize)
